@@ -71,18 +71,20 @@ AddEventHandler('onResourceStop', function(resource)
 end)
 
 function SpawnSulfuricAcidBarrels()
-	while spawnedSulfuricAcidBarrels < 10 do
+	while spawnedSulfuricAcidBarrels < 5 do
 		Citizen.Wait(0)
 		local weedCoords = GenerateSulfuricAcidCoords()
-		RequestModel(`mw_sulfuric_barrel`)
-		while not HasModelLoaded(`mw_sulfuric_barrel`) do
-			Wait(100)
+		if weedCoords ~= nil then
+			RequestModel(`mw_sulfuric_barrel`)
+			while not HasModelLoaded(`mw_sulfuric_barrel`) do
+				Wait(100)
+			end
+			local obj = CreateObject(`mw_sulfuric_barrel`, weedCoords.x, weedCoords.y, weedCoords.z, false, true, false)
+			PlaceObjectOnGroundProperly(obj)
+			FreezeEntityPosition(obj, true)
+			table.insert(SulfuricAcidBarrels, obj)
+			spawnedSulfuricAcidBarrels = spawnedSulfuricAcidBarrels + 1
 		end
-		local obj = CreateObject(`mw_sulfuric_barrel`, weedCoords.x, weedCoords.y, weedCoords.z, true, true, false)
-		PlaceObjectOnGroundProperly(obj)
-		FreezeEntityPosition(obj, true)
-		table.insert(SulfuricAcidBarrels, obj)
-		spawnedSulfuricAcidBarrels = spawnedSulfuricAcidBarrels + 1
 	end
 end
 
@@ -91,12 +93,12 @@ function ValidateSulfuricAcidCoord(plantCoord)
 		local validate = true
 
 		for k, v in pairs(SulfuricAcidBarrels) do
-			if GetDistanceBetweenCoords(plantCoord, GetEntityCoords(v), true) < 5 then
+			if GetDistanceBetweenCoords(plantCoord, GetEntityCoords(v), true) < 1 then
 				validate = false
 			end
 		end
 
-		if GetDistanceBetweenCoords(plantCoord, Config.CircleZones.SodiumHydroxideFarm.coords, false) > 50 then
+		if GetDistanceBetweenCoords(plantCoord, Config.CircleZones.SulfuricAcidFarm.coords, false) > Config.CircleZones.SulfuricAcidFarm.radius then
 			validate = false
 		end
 
@@ -113,12 +115,12 @@ function GenerateSulfuricAcidCoords()
 		local weedCoordX, weedCoordY
 
 		math.randomseed(GetGameTimer())
-		local modX = math.random(-7, 7)
+		local modX = math.random(-4, 4)
 
 		Citizen.Wait(100)
 
 		math.randomseed(GetGameTimer())
-		local modY = math.random(-7, 7)
+		local modY = math.random(-4, 4)
 
 		weedCoordX = Config.CircleZones.SulfuricAcidFarm.coords.x + modX
 		weedCoordY = Config.CircleZones.SulfuricAcidFarm.coords.y + modY
@@ -133,7 +135,7 @@ function GenerateSulfuricAcidCoords()
 end
 
 function GetCoordZSulfuricAcid(x, y)
-	local groundCheckHeights = { 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 150.0 }
+	local groundCheckHeights = { 3.0, 5.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 150.0 }
 
 	for i, height in ipairs(groundCheckHeights) do
 		local foundGround, z = GetGroundZFor_3dCoord(x, y, height)

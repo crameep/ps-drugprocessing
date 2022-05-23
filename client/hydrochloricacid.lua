@@ -73,15 +73,17 @@ function SpawnHydrochloricAcidBarrels()
 	while spawnedHydrochloricAcidBarrels < 5 do
 		Citizen.Wait(0)
 		local weedCoords = GenerateHydrochloricAcidCoords()
-		RequestModel(`mw_hydro_barrel`)
-		while not HasModelLoaded(`mw_hydro_barrel`) do
-			Wait(100)
+		if weedCoords ~= nil then
+			RequestModel(`mw_hydro_barrel`)
+			while not HasModelLoaded(`mw_hydro_barrel`) do
+				Wait(100)
+			end
+			local obj = CreateObject(`mw_hydro_barrel`, weedCoords.x, weedCoords.y, weedCoords.z, false, true, false)
+			PlaceObjectOnGroundProperly(obj)
+			FreezeEntityPosition(obj, true)
+			table.insert(HydrochloricAcidBarrels, obj)
+			spawnedHydrochloricAcidBarrels = spawnedHydrochloricAcidBarrels + 1
 		end
-		local obj = CreateObject(`mw_hydro_barrel`, weedCoords.x, weedCoords.y, weedCoords.z, true, true, false)
-		PlaceObjectOnGroundProperly(obj)
-		FreezeEntityPosition(obj, true)
-		table.insert(HydrochloricAcidBarrels, obj)
-		spawnedHydrochloricAcidBarrels = spawnedHydrochloricAcidBarrels + 1
 	end
 end
 
@@ -90,12 +92,12 @@ function ValidateHydrochloricAcidCoord(plantCoord)
 		local validate = true
 
 		for k, v in pairs(HydrochloricAcidBarrels) do
-			if GetDistanceBetweenCoords(plantCoord, GetEntityCoords(v), true) < 5 then
+			if GetDistanceBetweenCoords(plantCoord, GetEntityCoords(v), true) < 1 then
 				validate = false
 			end
 		end
 
-		if GetDistanceBetweenCoords(plantCoord, Config.CircleZones.HydrochloricAcidFarm.coords, false) > 50 then
+		if GetDistanceBetweenCoords(plantCoord, Config.CircleZones.HydrochloricAcidFarm.coords, false) >Config.CircleZones.HydrochloricAcidFarm.radius then
 			validate = false
 		end
 
@@ -112,12 +114,12 @@ function GenerateHydrochloricAcidCoords()
 		local weed2CoordX, weed2CoordY
 
 		math.randomseed(GetGameTimer())
-		local modX2 = math.random(-15, 15)
+		local modX2 = math.random(-5, 5)
 
 		Citizen.Wait(100)
 
 		math.randomseed(GetGameTimer())
-		local modY2 = math.random(-15, 15)
+		local modY2 = math.random(-5, 5)
 
 		weed2CoordX = Config.CircleZones.HydrochloricAcidFarm.coords.x + modX2
 		weed2CoordY = Config.CircleZones.HydrochloricAcidFarm.coords.y + modY2
@@ -132,7 +134,7 @@ function GenerateHydrochloricAcidCoords()
 end
 
 function GetCoordZHydrochloricAcid(x, y)
-	local groundCheckHeights = { 20.0, 21.0, 22.0, 23.0, 24.0, 175.0, 190.0, 200.0, 205.0, 215.0, 225.0 }
+	local groundCheckHeights = { 5.0, 20.0, 21.0, 22.0, 23.0, 24.0, 175.0, 190.0, 200.0, 205.0, 215.0, 225.0 }
 
 	for i, height in ipairs(groundCheckHeights) do
 		local found2Ground, z = GetGroundZFor_3dCoord(x, y, height)
