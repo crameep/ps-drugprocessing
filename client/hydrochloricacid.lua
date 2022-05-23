@@ -4,7 +4,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(10)
+		Citizen.Wait(10000)
 		local coords = GetEntityCoords(PlayerPedId())
 
 		if GetDistanceBetweenCoords(coords, Config.CircleZones.HydrochloricAcidFarm.coords, true) < 50 then
@@ -71,7 +71,7 @@ end)
 
 function SpawnHydrochloricAcidBarrels()
 	while spawnedHydrochloricAcidBarrels < 5 do
-		Citizen.Wait(0)
+		Citizen.Wait(10)
 		local weedCoords = GenerateHydrochloricAcidCoords()
 		if weedCoords ~= nil then
 			RequestModel(`mw_hydro_barrel`)

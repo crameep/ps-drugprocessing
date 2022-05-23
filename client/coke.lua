@@ -7,7 +7,7 @@ local isPickingUp, isProcessing, CWarehouse, hasitem1, hasitem2 = false, false, 
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(10)
+		Citizen.Wait(10000)
 		local coords = GetEntityCoords(PlayerPedId())
 
 		if GetDistanceBetweenCoords(coords, Config.CircleZones.CokeField.coords, true) < 50 then

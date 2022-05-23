@@ -7,7 +7,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(10)
+		Citizen.Wait(10000)
 		local coords = GetEntityCoords(PlayerPedId())
 
 		if GetDistanceBetweenCoords(coords, Config.CircleZones.WeedField.coords, true) < 50 then
@@ -118,7 +118,7 @@ end)
 
 function SpawnWeedPlants()
 	while spawnedWeeds < 15 do
-		Citizen.Wait(0)
+		Citizen.Wait(10)
 		local weedCoords = GenerateWeedCoords()
 		if weedCoords ~= nil then	
 			RequestModel(`mw_weed_plant`)

@@ -4,7 +4,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(10)
+		Citizen.Wait(10000)
 		local coords = GetEntityCoords(PlayerPedId())		
 
 		if GetDistanceBetweenCoords(coords, Config.CircleZones.SodiumHydroxideFarm.coords, true) < 50 then
@@ -71,18 +71,20 @@ AddEventHandler('onResourceStop', function(resource)
 end)
 
 function SpawnSodiumHydroxideBarrels()
-	while spawnedSodiumHydroxideBarrels < 10 do
-		Citizen.Wait(0)
+	while spawnedSodiumHydroxideBarrels < 5 do
+		Citizen.Wait(10)
 		local weedCoords2 = GenerateSodiumHydroxideCoords()
-		RequestModel(`mw_sodium_barrel`)
-		while not HasModelLoaded(`mw_sodium_barrel`) do
-			Wait(100)
+		if weedCoords2 ~= nil then
+			RequestModel(`mw_sodium_barrel`)
+			while not HasModelLoaded(`mw_sodium_barrel`) do
+				Wait(100)
+			end
+			local obj = CreateObject(`mw_sodium_barrel`, weedCoords2.x, weedCoords2.y, weedCoords2.z, false, true, false)
+			PlaceObjectOnGroundProperly(obj)
+			FreezeEntityPosition(obj, true)
+			table.insert(SodiumHydroxideBarrels, obj)
+			spawnedSodiumHydroxideBarrels = spawnedSodiumHydroxideBarrels + 1
 		end
-		local obj = CreateObject(`mw_sodium_barrel`, weedCoords2.x, weedCoords2.y, weedCoords2.z, true, true, false)
-		PlaceObjectOnGroundProperly(obj)
-		FreezeEntityPosition(obj, true)
-		table.insert(SodiumHydroxideBarrels, obj)
-		spawnedSodiumHydroxideBarrels = spawnedSodiumHydroxideBarrels + 1
 	end
 end
 
@@ -91,12 +93,12 @@ function ValidateSodiumHydroxideCoord(plantCoord)
 		local validate2 = true
 
 		for k, v in pairs(SodiumHydroxideBarrels) do
-			if GetDistanceBetweenCoords(plantCoord, GetEntityCoords(v), true) < 5 then
+			if GetDistanceBetweenCoords(plantCoord, GetEntityCoords(v), true) < 1 then
 				validate2 = false
 			end
 		end
 
-		if GetDistanceBetweenCoords(plantCoord, Config.CircleZones.SulfuricAcidFarm.coords, false) > 50 then
+		if GetDistanceBetweenCoords(plantCoord, Config.CircleZones.SodiumHydroxideFarm.coords, false) > Config.CircleZones.SodiumHydroxideFarm.radius then
 			validate2 = false
 		end
 
@@ -113,12 +115,12 @@ function GenerateSodiumHydroxideCoords()
 		local weed3CoordX, weed3CoordY
 
 		math.randomseed(GetGameTimer())
-		local modX3 = math.random(-7, 7)
+		local modX3 = math.random(-4, 4)
 
 		Citizen.Wait(100)
 
 		math.randomseed(GetGameTimer())
-		local modY3 = math.random(-7, 7)
+		local modY3 = math.random(-4, 4)
 
 		weed3CoordX = Config.CircleZones.SodiumHydroxideFarm.coords.x + modX3
 		weed3CoordY = Config.CircleZones.SodiumHydroxideFarm.coords.y + modY3
@@ -133,7 +135,7 @@ function GenerateSodiumHydroxideCoords()
 end
 
 function GetCoordZSodiumHydroxide(x, y)
-	local groundCheckHeights = { 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0, 29.0, 300.0 }
+	local groundCheckHeights = { 2.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0, 29.0, 300.0 }
 
 	for i, height in ipairs(groundCheckHeights) do
 		local found3Ground, z = GetGroundZFor_3dCoord(x, y, height)

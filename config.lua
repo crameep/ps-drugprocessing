@@ -18,8 +18,8 @@ Config.CircleZones = {
 	MethBag = {coords = vector3(987.81, -140.43, -49.0), name = ('Meth Bagging'), radius = 20.0},
 	HydrochloricAcidFarm = {coords = vector3(5187.34, -5133.3, 3.34), name = ('Hydrochloric Acid'), radius = 4.0},
 
-	SulfuricAcidFarm = {coords = vector3(5052.58, -4592.65, 2.89), name = ('Sulfuric Acid'), radius = 5.0},
-	SodiumHydroxideFarm = {coords = vector3(-389.35, -1874.85, 20.53), name = ('Sodium Hydroxide'), radius = 100.0},
+	SulfuricAcidFarm = {coords = vector3(5052.58, -4592.65, 2.89), name = ('Sulfuric Acid'), radius = 3.0},
+	SodiumHydroxideFarm = {coords = vector3(4919.47, -5237.47, 2.52), name = ('Sodium Hydroxide'), radius = 5.0},
 	
 	ChemicalsField = {coords = vector3(4857.25, -5340.75, 13.23), name = ('Chemicals'), radius = 5.0},
 	ChemicalsConvertionMenu = {coords = vector3(3536.71, 3662.63, 28.12), name = ('Chemicals Process'), radius = 100.0},
@@ -29,7 +29,7 @@ Config.CircleZones = {
 	CokePowder = {coords = vector3(1092.9, -3196.65, -38.99), name = ('Powder Cutting'), radius = 20.0},--vector3(1092.9, -3196.65, -38.99)
 	CokeBrick = {coords = vector3(1099.57, -3194.35, -38.99), name = ('Brick Up Packages'), radius = 20.0},--vector3(1099.57, -3194.35, -38.99)
 	
-	HeroinField = {coords = vector3(-2339.15, -54.32, 95.05), name = ('Heroin'), radius = 100.0},
+	HeroinField = {coords = vector3(vector3(5243.91, -5760.9, 21.21)), name = ('Heroin'), radius = 10.0},
 	HeroinProcessing = {coords = vector3(1413.37, -2041.74, 52.0), name = ('Heroin Process'), radius = 100.0},
 
 	lsdProcessing = {coords = vector3(2503.84, -428.11, 92.99), name = ('LSD process'), radius = 100.0},

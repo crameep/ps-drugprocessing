@@ -4,7 +4,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(10)
+		Citizen.Wait(10000)
 		local coords = GetEntityCoords(PlayerPedId())
 
 		if GetDistanceBetweenCoords(coords, Config.CircleZones.SulfuricAcidFarm.coords, true) < 50 then
@@ -72,7 +72,7 @@ end)
 
 function SpawnSulfuricAcidBarrels()
 	while spawnedSulfuricAcidBarrels < 5 do
-		Citizen.Wait(0)
+		Citizen.Wait(10)
 		local weedCoords = GenerateSulfuricAcidCoords()
 		if weedCoords ~= nil then
 			RequestModel(`mw_sulfuric_barrel`)

@@ -4,7 +4,7 @@ local Chemicals = {}
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(10)
+		Citizen.Wait(10000)
 		local coords = GetEntityCoords(PlayerPedId())
 
 		if GetDistanceBetweenCoords(coords, Config.CircleZones.ChemicalsField.coords, true) < 50 then
@@ -307,7 +307,7 @@ end)
 
 function SpawnChemicals()
 	while SpawnedChemicals < 5 do
-		Citizen.Wait(50)
+		Citizen.Wait(10)
 		local chemicalsCoords = GeneratechemicalsCoords()
 		local pID = PlayerPedId()
 		local PlayerData = QBCore.Functions.GetPlayerData()

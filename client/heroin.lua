@@ -6,7 +6,7 @@ local QBCore = exports['qb-core']:GetCoreObject()
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(10)
+		Citizen.Wait(10000)
 		local coords = GetEntityCoords(PlayerPedId())
 
 		if GetDistanceBetweenCoords(coords, Config.CircleZones.HeroinField.coords, true) < 50 then
@@ -135,18 +135,20 @@ AddEventHandler('onResourceStop', function(resource)
 end)
 
 function SpawnPoppyPlants()
-	while spawnedPoppys < 15 do
-		Citizen.Wait(0)
+	while spawnedPoppys < 5 do
+		Citizen.Wait(10)
 		local heroinCoords = GenerateHeroinCoords()
-		RequestModel(`prop_plant_01b`)
-		while not HasModelLoaded(`prop_plant_01b`) do
-			Wait(100)
+		if heroinCoords ~= nil then
+			RequestModel(`prop_plant_01b`)
+			while not HasModelLoaded(`prop_plant_01b`) do
+				Wait(100)
+			end
+			local obj = CreateObject(`prop_plant_01b`, heroinCoords.x, heroinCoords.y, heroinCoords.z, true, true, false)
+			PlaceObjectOnGroundProperly(obj)
+			FreezeEntityPosition(obj, true)
+			table.insert(PoppyPlants, obj)
+			spawnedPoppys = spawnedPoppys + 1
 		end
-		local obj = CreateObject(`prop_plant_01b`, heroinCoords.x, heroinCoords.y, heroinCoords.z, true, true, false)
-		PlaceObjectOnGroundProperly(obj)
-		FreezeEntityPosition(obj, true)
-		table.insert(PoppyPlants, obj)
-		spawnedPoppys = spawnedPoppys + 1
 	end
 end
 
@@ -155,12 +157,12 @@ function ValidateHeroinCoord(plantCoord)
 		local validate = true
 
 		for k, v in pairs(PoppyPlants) do
-			if GetDistanceBetweenCoords(plantCoord, GetEntityCoords(v), true) < 5 then
+			if GetDistanceBetweenCoords(plantCoord, GetEntityCoords(v), true) < 3 then
 				validate = false
 			end
 		end
 
-		if GetDistanceBetweenCoords(plantCoord, Config.CircleZones.HeroinField.coords, false) > 50 then
+		if GetDistanceBetweenCoords(plantCoord, Config.CircleZones.HeroinField.coords, false) > Config.CircleZones.HeroinField.radius then
 			validate = false
 		end
 
@@ -197,7 +199,7 @@ function GenerateHeroinCoords()
 end
 
 function GetCoordZHeroin(x, y)
-	local groundCheckHeights = { 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 50.0, 75.0, 100.0, 110.0, 125.0 }
+	local groundCheckHeights = { 2.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 50.0, 75.0, 100.0, 110.0, 125.0 }
 
 	for i, height in ipairs(groundCheckHeights) do
 		local foundGround, z = GetGroundZFor_3dCoord(x, y, height)
