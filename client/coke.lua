@@ -74,6 +74,9 @@ AddEventHandler('ps-drugprocessing:ProcessCocaPowder', function()
 							CutCokePowder()
 							hasitem1 = false
 							hasitem2 = false	
+						else
+							Citizen.Wait(1000)
+						QBCore.Functions.Notify(Lang:t("error.no_finescale"), 'error')
 						end
 					end, 'finescale')
 				else
@@ -199,7 +202,7 @@ function ProcessCoke()
 			timeLeft = timeLeft - 1
 
 			if GetDistanceBetweenCoords(GetEntityCoords(playerPed), Config.CircleZones.CokeProcessing.coords, false) > 4 then
-				TriggerServerEvent('ps-drugprocessing:cancelProcessing')
+				TriggerServerEvent('ps-drugprocessing:cancelProcessing', data)
 				break
 			end
 		end
@@ -209,6 +212,35 @@ function ProcessCoke()
 	end)
 	isProcessing = false
 end
+
+
+
+RegisterNetEvent('ps-drugprocessing:CheckForMoreCoke', function(source, process, item)
+	Citizen.Wait(100)
+	if process == 'ProcessCoke' then
+		local hasLeaf = QBCore.Functions.HasItem(item)
+		if hasLeaf then
+			ProcessCoke()
+		else
+			QBCore.Functions.Notify(Lang:t("error.done"), 'error')
+		end
+	
+	elseif process == 'CutCokePowder' then
+		local hasCoke = QBCore.Functions.HasItem(item)
+		if hasCoke then
+			CutCokePowder()
+		else
+			QBCore.Functions.Notify(Lang:t("error.done"), 'error')
+		end
+	elseif process == 'ProcessBricks' then
+		local hasBrick = QBCore.Functions.HasItem(item)
+		if hasBrick then
+			ProcessBricks()
+		else
+			QBCore.Functions.Notify(Lang:t("error.done"), 'error')
+		end
+	end
+end)
 
 function CutCokePowder()
 	isProcessing = true
@@ -335,15 +367,18 @@ function SpawnCocaPlants()
 	while spawnedCocaLeaf < 15 do
 		Citizen.Wait(0)
 		local weedCoords = GenerateCocaLeafCoords()
-		RequestModel(`mw_coke_plant`)
-		while not HasModelLoaded(`mw_coke_plant`) do
-			Wait(100)
+		if weedCoords ~= nil then	
+			--print("DEBUG: "..spawnedCocaLeaf.." @ "..weedCoords)
+			RequestModel(`mw_coke_plant`)
+			while not HasModelLoaded(`mw_coke_plant`) do
+				Wait(100)
+			end
+			local obj = CreateObject(`mw_coke_plant`, weedCoords.x, weedCoords.y, weedCoords.z, false, true, false)
+			PlaceObjectOnGroundProperly(obj)
+			FreezeEntityPosition(obj, true)
+			table.insert(CocaPlants, obj)
+			spawnedCocaLeaf = spawnedCocaLeaf + 1
 		end
-		local obj = CreateObject(`mw_coke_plant`, weedCoords.x, weedCoords.y, weedCoords.z, true, true, false)
-		PlaceObjectOnGroundProperly(obj)
-		FreezeEntityPosition(obj, true)
-		table.insert(CocaPlants, obj)
-		spawnedCocaLeaf = spawnedCocaLeaf + 1
 	end
 end
 
@@ -352,12 +387,12 @@ function ValidateCocaLeafCoord(plantCoord)
 		local validate = true
 
 		for k, v in pairs(CocaPlants) do
-			if GetDistanceBetweenCoords(plantCoord, GetEntityCoords(v), true) < 5 then
+			if GetDistanceBetweenCoords(plantCoord, GetEntityCoords(v), true) < 3 then
 				validate = false
 			end
 		end
 
-		if GetDistanceBetweenCoords(plantCoord, Config.CircleZones.CokeField.coords, false) > 50 then
+		if GetDistanceBetweenCoords(plantCoord, Config.CircleZones.CokeField.coords, false) > Config.CircleZones.CokeField.radius then
 			validate = false
 		end
 

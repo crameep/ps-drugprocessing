@@ -25,6 +25,8 @@ local Translations = {
         enough_temp = "The temperature is already okay!",
         temp_too_low = "The temperature was too low. The mixture is now unusable!",
         temp_too_high = "The temperature was too high. The mixture is now unusable!",
+        no_finescale = "You need a Fine Scale to Refine this",
+        done = "You Proceesed all your Coke"
     },
     success = {
         temp_up = "Temperature increased!",

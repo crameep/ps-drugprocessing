@@ -120,15 +120,17 @@ function SpawnWeedPlants()
 	while spawnedWeeds < 15 do
 		Citizen.Wait(0)
 		local weedCoords = GenerateWeedCoords()
-		RequestModel(`mw_weed_plant`)
-		while not HasModelLoaded(`mw_weed_plant`) do
-			Wait(100)
+		if weedCoords ~= nil then	
+			RequestModel(`mw_weed_plant`)
+			while not HasModelLoaded(`mw_weed_plant`) do
+				Wait(100)
+			end
+			local obj = CreateObject(`mw_weed_plant`, weedCoords.x, weedCoords.y, weedCoords.z, true, true, false)
+			PlaceObjectOnGroundProperly(obj)
+			FreezeEntityPosition(obj, true)
+			table.insert(weedPlants, obj)
+			spawnedWeeds = spawnedWeeds + 1
 		end
-		local obj = CreateObject(`mw_weed_plant`, weedCoords.x, weedCoords.y, weedCoords.z, true, true, false)
-		PlaceObjectOnGroundProperly(obj)
-		FreezeEntityPosition(obj, true)
-		table.insert(weedPlants, obj)
-		spawnedWeeds = spawnedWeeds + 1
 	end
 end
 
@@ -137,12 +139,12 @@ function ValidateWeedCoord(plantCoord)
 		local validate = true
 
 		for k, v in pairs(weedPlants) do
-			if GetDistanceBetweenCoords(plantCoord, GetEntityCoords(v), true) < 5 then
+			if GetDistanceBetweenCoords(plantCoord, GetEntityCoords(v), true) < 3 then
 				validate = false
 			end
 		end
 
-		if GetDistanceBetweenCoords(plantCoord, Config.CircleZones.WeedField.coords, false) > 50 then
+		if GetDistanceBetweenCoords(plantCoord, Config.CircleZones.WeedField.coords, false) > Config.CircleZones.WeedField.radius then
 			validate = false
 		end
 

@@ -294,8 +294,6 @@ AddEventHandler("ps-drugprocessing:pickChemicals", function()
 
 					table.remove(Chemicals, nearbyID)
 					SpawnedChemicals = SpawnedChemicals - 1
-	
-					TriggerServerEvent('ps-drugprocessing:pickedUpChemicals')
 
 				end, function()
 					ClearPedTasks(PlayerPedId())
@@ -308,18 +306,27 @@ AddEventHandler("ps-drugprocessing:pickChemicals", function()
 end)
 
 function SpawnChemicals()
-	while SpawnedChemicals < 10 do
-		Citizen.Wait(0)
+	while SpawnedChemicals < 5 do
+		Citizen.Wait(50)
 		local chemicalsCoords = GeneratechemicalsCoords()
-		RequestModel(`mw_chemical_barrel`)
-		while not HasModelLoaded(`mw_chemical_barrel`) do
-			Wait(100)
+		local pID = PlayerPedId()
+		local PlayerData = QBCore.Functions.GetPlayerData()
+		--print(PlayerData.metadata['spawneddrugs'])
+		if chemicalsCoords ~= nil then		
+			--print("DEBUG: "..SpawnedChemicals.." @ "..chemicalsCoords)
+			RequestModel(`mw_chemical_barrel`)
+			while not HasModelLoaded(`mw_chemical_barrel`) do
+				Wait(100)
+			end
+			local obj = CreateObject(`mw_chemical_barrel`, chemicalsCoords.x, chemicalsCoords.y, chemicalsCoords.z, false, true, false)
+			PlaceObjectOnGroundProperly(obj)
+			FreezeEntityPosition(obj, true)
+			table.insert(Chemicals, obj)			
+			SpawnedChemicals = SpawnedChemicals + 1
+
+			--TriggerServerEvent("QBCore:Server:SetMetaData", "spawnedDrugs", SpawnedChemicals)
+
 		end
-		local obj = CreateObject(`mw_chemical_barrel`, chemicalsCoords.x, chemicalsCoords.y, chemicalsCoords.z, true, true, false)
-		PlaceObjectOnGroundProperly(obj)
-		FreezeEntityPosition(obj, true)
-		table.insert(Chemicals, obj)
-		SpawnedChemicals = SpawnedChemicals + 1
 	end
 end
 
@@ -328,12 +335,12 @@ function ValidatechemicalsCoord(plantCoord)
 		local validate = true
 
 		for k, v in pairs(Chemicals) do
-			if GetDistanceBetweenCoords(plantCoord, GetEntityCoords(v), true) < 5 then
+			if GetDistanceBetweenCoords(plantCoord, GetEntityCoords(v), true) < 2 then
 				validate = false
 			end
 		end
 
-		if GetDistanceBetweenCoords(plantCoord, Config.CircleZones.ChemicalsField.coords, false) > 50 then
+		if GetDistanceBetweenCoords(plantCoord, Config.CircleZones.ChemicalsField.coords, false) > Config.CircleZones.ChemicalsField.radius then
 			validate = false
 		end
 
@@ -366,6 +373,7 @@ function GeneratechemicalsCoords()
 		if ValidatechemicalsCoord(coord) then
 			return coord
 		end
+
 	end
 end
 

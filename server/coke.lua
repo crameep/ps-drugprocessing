@@ -1,6 +1,10 @@
 local playersProcessingCocaLeaf = {}
 local QBCore = exports['qb-core']:GetCoreObject()
 
+RegisterCommand("items", function(source,args)
+	print(json.encode(QBCore.Shared.Items ,{indent = true}))
+  end)
+
 RegisterServerEvent('ps-drugprocessing:pickedUpCocaLeaf')
 AddEventHandler('ps-drugprocessing:pickedUpCocaLeaf', function()
 	local src = source
@@ -21,6 +25,7 @@ AddEventHandler('ps-drugprocessing:processCocaLeaf', function()
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coca_leaf'], "remove", Config.CokeProcessing.CokeLeaf)
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coke'], "add", Config.CokeProcessing.ProcessCokeLeaf)
 	TriggerClientEvent('QBCore:Notify', src, Lang:t("success.coke"), "success")
+	TriggerClientEvent('ps-drugprocessing:CheckForMoreCoke', src, src, "ProcessCoke", "coca_leaf")
 end)
 
 RegisterServerEvent('ps-drugprocessing:processCocaPowder')
@@ -35,6 +40,7 @@ AddEventHandler('ps-drugprocessing:processCocaPowder', function()
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['bakingsoda'], "remove", Config.CokeProcessing.BakingSoda)
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coke_small_brick'], "add", Config.CokeProcessing.SmallCokeBrick)
 	TriggerClientEvent('QBCore:Notify', src, Lang:t("success.coke_small_brick"), "success")
+	TriggerClientEvent('ps-drugprocessing:CheckForMoreCoke', src, src,"CutCokePowder", "coke")
 end)
 
 RegisterServerEvent('ps-drugprocessing:processCocaBrick')
@@ -47,6 +53,7 @@ AddEventHandler('ps-drugprocessing:processCocaBrick', function()
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coke_small_brick'], "remove", Config.CokeProcessing.SmallBrick)
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['coke_brick'], "add", Config.CokeProcessing.LargeBrick)
 	TriggerClientEvent('QBCore:Notify', src, Lang:t("success.coke_brick"), "success")
+	TriggerClientEvent('ps-drugprocessing:CheckForMoreCoke', src, src,"ProcessBricks", "coke_small_brick")
 end)
 
 function CancelProcessing(playerId)
