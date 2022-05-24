@@ -1,4 +1,10 @@
-# Project Sloth Advanced Drug Processing
+# Project Sloth Advanced Drug Processing (Modified by crameep to fix a crapload of major issues)
+-Added Auto Repeat Process to Coke/Weed (Still need to complete other processs)
+-Started integrating the configuration file into the script ( It wasn't being used in half of it.)
+- 1/2 of the target system converted to use the Configuration locations to creat polyzones
+- Added Bagging weed and randomly get different quality weeds when bagging
+- Fixed the spawning of models to only show to the player that can harvest them, so you dont see a bunch of models you cant harvest
+- I cant remember what else i did so far but i'm sure theres more.
 
 # Chemicals Preview
 ![image](https://user-images.githubusercontent.com/82112471/165860380-861eddc3-8548-442d-b483-2afd311970ad.png)
