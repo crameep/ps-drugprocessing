@@ -62,6 +62,17 @@ AddEventHandler("ps-drugprocessing:processWeed",function()
 	end,'cannabis')
 end)
 
+RegisterNetEvent("ps-drugprocessing:BagWeed")
+AddEventHandler("ps-drugprocessing:BagWeed",function()
+	QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
+		if result then
+			ProcessWeed()
+		else
+			QBCore.Functions.Notify(Lang:t("error.no_cannabis"), 'error')
+		end
+	end,'cannabis')
+end)
+
 RegisterNetEvent("ps-drugprocessing:pickWeed")
 AddEventHandler("ps-drugprocessing:pickWeed", function()
 		Citizen.Wait(0)
@@ -218,6 +229,71 @@ function RollJoint()
 		disableCombat = true,
 	}, {}, {}, {}, function()
 	TriggerServerEvent('ps-drugprocessing:rollJoint')
+	local timeLeft = Config.Delays.WeedProcessing / 1000
+
+	while timeLeft > 0 do
+		Citizen.Wait(1000)
+	timeLeft = timeLeft - 1
+
+	end
+		ClearPedTasks(PlayerPedId())
+	end, function()
+		ClearPedTasks(PlayerPedId())
+	end)
+	isProcessing = false
+end
+
+RegisterNetEvent('ps-drugprocessing:CheckForMoreWeed', function(source, process, item)
+	Citizen.Wait(100)
+	if process == 'ProcessWeed' then
+		local hasCannabis = QBCore.Functions.HasItem(item)
+		if hasCannabis then
+			ProcessWeed()
+		else
+			QBCore.Functions.Notify(Lang:t("error.no_cannabis"), 'error')
+		end
+	
+	elseif process == 'BagMarijuana' then
+		local hasMarijuana = QBCore.Functions.HasItem(item)
+		if hasMarijuana then
+			BagMarijuana()
+		else
+			QBCore.Functions.Notify(Lang:t("error.no_marijuhana"), 'error')
+		end
+	elseif process == 'RollJoint' then
+		local hasMarijuana2 = QBCore.Functions.HasItem(item)
+		if hasMarijuna2 then
+			RollJoint()
+		else
+			QBCore.Functions.Notify(Lang:t("error.no_marijuhana"), 'error')
+		end
+	end
+end)
+
+RegisterNetEvent('ps-drugprocessing:client:bagMarijuana')
+AddEventHandler('ps-drugprocessing:client:bagMarijuana', function()
+    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
+		if result then
+			BagMarijuana()
+		else
+			QBCore.Functions.Notify(Lang:t("error.no_bag"), 'error')
+		end
+	end, 'empty_weed_bag')
+end)
+
+function BagMarijuana()
+	isProcessing = true
+	local playerPed = PlayerPedId()
+
+	TaskStartScenarioInPlace(playerPed, "PROP_HUMAN_PARKING_METER", 0, true)
+
+	QBCore.Functions.Progressbar("search_register", Lang:t("progressbar.bagging_weed"), 7000, false, true, {
+		disableMovement = true,
+		disableCarMovement = true,
+		disableMouse = false,
+		disableCombat = true,
+	}, {}, {}, {}, function()
+	TriggerServerEvent('ps-drugprocessing:bagMarijuana')
 	local timeLeft = Config.Delays.WeedProcessing / 1000
 
 	while timeLeft > 0 do

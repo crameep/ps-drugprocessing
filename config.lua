@@ -1,17 +1,20 @@
 Config = {}
 
 Config.Delays = {
-	WeedProcessing = 1000 * 10,
+	WeedProcessing = 1000 * 5,
 	MethProcessing = 1000 * 10,
 	CokeProcessing = 1000 * 5,
 	lsdProcessing = 1000 * 10,
 	HeroinProcessing = 1000 * 10,
 	thionylchlorideProcessing = 1000 * 10,
 }
+Config.Debug = {
+	poly = true,
+}
 
 Config.CircleZones = {
 	WeedField = {coords = vector3(5464.62,-5901.59, 20.01), name = ('Weed Farm'), radius = 10.0},
-	WeedProcessing = {coords = vector3(2329.12, 2571.86, 46.68), name = ('Weed Process'), radius = 100.0},
+	WeedProcessing = {coords = vector3(4947.78, -5100.81,2.24), name = ('Weed Process'), polyHeight = 2.5, polyWidth = 2.5},
 	
 	MethProcessing = {coords = vector3(978.17, -147.98, -48.53), name = ('Meth Process'), radius = 20.0},
 	MethTemp = {coords = vector3(982.56, -145.59, -49.0), name = ('Meth Temperature'), radius = 20.0},
@@ -25,9 +28,9 @@ Config.CircleZones = {
 	ChemicalsConvertionMenu = {coords = vector3(3536.71, 3662.63, 28.12), name = ('Chemicals Process'), radius = 100.0},
 
 	CokeField = {coords = vector3(5227.66, -5601.06, 47.81), name = ('Coke'), radius = 10.0},
-	CokeProcessing = {coords = vector3(1087.14, -3195.31, -38.99), name = ('Coke Process'), radius = 20.0}, 
-	CokePowder = {coords = vector3(1092.9, -3196.65, -38.99), name = ('Powder Cutting'), radius = 20.0},--vector3(1092.9, -3196.65, -38.99)
-	CokeBrick = {coords = vector3(1099.57, -3194.35, -38.99), name = ('Brick Up Packages'), radius = 20.0},--vector3(1099.57, -3194.35, -38.99)
+	CokeProcessing = {coords = vector3(4992.77, -5126.12, -4.64), name = ('Coke Process'), polyHeight = 1.2, polyWidth = 1.2}, 
+	CokePowder = {coords = vector3(4993.19, -5132.19, -4.67), name = ('Powder Cutting'), polyHeight = 1.2, polyWidth = 1.2},--vector3(1092.9, -3196.65, -38.99)
+	CokeBrick = {coords = vector3(4993.57, -5137.46, -4.67), name = ('Brick Up Packages'), polyHeight = 1.2, polyWidth = 1.2},--vector3(1099.57, -3194.35, -38.99)
 	
 	HeroinField = {coords = vector3(vector3(5243.91, -5760.9, 21.21)), name = ('Heroin'), radius = 10.0},
 	HeroinProcessing = {coords = vector3(1413.37, -2041.74, 52.0), name = ('Heroin Process'), radius = 100.0},
@@ -35,6 +38,13 @@ Config.CircleZones = {
 	lsdProcessing = {coords = vector3(2503.84, -428.11, 92.99), name = ('LSD process'), radius = 100.0},
 
 	thionylchlorideProcessing = {coords = vector3(-679.59, 5800.46, 17.33), name = ('Thi Clo Process'), radius = 100.0},
+}
+
+Config.WeedBags = { -- 
+  "banana_kush_bag",
+  "blue_dream_bag",
+  "og_kush_bag",
+  "purple_haze_bag",
 }
 
 

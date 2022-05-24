@@ -26,7 +26,8 @@ local Translations = {
         temp_too_low = "The temperature was too low. The mixture is now unusable!",
         temp_too_high = "The temperature was too high. The mixture is now unusable!",
         no_finescale = "You need a Fine Scale to Refine this",
-        done = "You Proceesed all your Coke"
+        done = "You Proceesed all your Coke",
+        no_bag = "You are missing an Empty Weed Bag"
     },
     success = {
         temp_up = "Temperature increased!",
@@ -48,6 +49,7 @@ local Translations = {
         cannabis = "Successfully collected cannabis!",
         marijuana = "Successfully produced marijuana!",
         joint = "You have successfully rolled a joint!",
+        bag_marijuana = "You have successfully put the Marijuana in a bag"
     },
     info = {
 
@@ -60,6 +62,7 @@ local Translations = {
         temp_up = "Raise temperature",
         temp_down = "Lower temperature",
         rolling_joint = "Rolling Joint",
+        bagging_weed = "Bagging Weed..."
     },
     items = {
         hydrochloric_acid = "Hydrochloric acid",
