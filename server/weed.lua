@@ -63,7 +63,7 @@ AddEventHandler('ps-drugprocessing:bagMarijuana', function()
 	local weedbag = Config.WeedBags[math.random(#Config.WeedBags)]
 	
 	Player.Functions.RemoveItem('marijuana', 1)
-	Player.Functions.RemoveItem('empty_wed_bag', 1)
+	Player.Functions.RemoveItem('empty_weed_bag', 1)
 	Player.Functions.AddItem(weedbag, 1)
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['marijuana'], "remove")
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['empty_weed_bag'], "remove")
