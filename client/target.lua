@@ -61,12 +61,12 @@ Citizen.CreateThread(function()
         },
     distance = 2.5
     })
-    exports["qb-target"]:AddBoxZone("methprocess", vector3(978.22, -147.1, -48.53), 1.6, 1.8, {
+    exports["qb-target"]:AddBoxZone("methprocess",  z.MethProcessing.coords, z.MethProcessing.polyHeight, z.MethProcessing.polyHeight, {
         name = "methprocess",
-        heading = 0,
+        heading = z.MethProcessing.heading,
         debugPoly = Config.Debug.poly,
-        minZ = -50.33,
-        maxZ = -45.53,
+        minZ = z.MethProcessing.minZ,
+        maxZ = z.MethProcessing.maxZ,
     }, {
         options = {
             {
@@ -79,12 +79,12 @@ Citizen.CreateThread(function()
         },
     distance = 3.5
     })
-    exports["qb-target"]:AddBoxZone("methtempup", vector3(982.56, -145.59, -49.0), 1.2, 1.4, {
+    exports["qb-target"]:AddBoxZone("methtempup", z.MethTempUp.coords, z.MethTempUp.polyHeight, z.MethTempUp.polyHeight, {
         name = "methtempup",
-        heading = 0,
+        heading = z.MethTempUp.heading,
         debugPoly = Config.Debug.poly,
-        minZ = -50.3,
-        maxZ = -47.3,
+        minZ = z.MethTempUp.minZ,
+        maxZ = z.MethTempUp.maxZ,
     }, {
         options = {
             {
@@ -97,12 +97,12 @@ Citizen.CreateThread(function()
         },
     distance = 3.5
     })
-    exports["qb-target"]:AddBoxZone("methtempdown", vector3(979.59, -144.14, -49.0), 1.2, 0.5, {
+    exports["qb-target"]:AddBoxZone("methtempdown", z.MethTempDown.coords, z.MethTempDown.polyHeight, z.MethTempDown.polyHeight, {
         name = "methtempdown",
-        heading = 354,
+        heading = z.MethTempDown.heading,
         debugPoly = Config.Debug.poly,
-        minZ = -49.2,
-        maxZ = -47.9,
+        minZ = z.MethTempDown.minZ,
+        maxZ = z.MethTempDown.maxZ,
     }, {
         options = {
             {
@@ -115,12 +115,12 @@ Citizen.CreateThread(function()
         },
     distance = 3.5
     })
-    exports["qb-target"]:AddBoxZone("methbagging", vector3(987.44, -140.5, -49.0), 0.5, 0.7, {
+    exports["qb-target"]:AddBoxZone("methbagging", z.MethBag.coords, z.MethBag.polyHeight, z.MethBag.polyHeight, {
         name = "methbagging",
-        heading = 1,
+        heading = z.MethBag.heading,
         debugPoly = Config.Debug.poly,
-        minZ = -49.35,
-        maxZ = -48.65,
+        minZ = z.MethBag.minZ,
+        maxZ = z.MethBag.maxZ,
     }, {
         options = {
             {
@@ -225,7 +225,7 @@ Citizen.CreateThread(function()
     })
     exports["qb-target"]:AddBoxZone("weedproces", z.WeedProcessing.coords, z.WeedProcessing.polyHeight, z.WeedProcessing.polyWidth, {
         name = "weedproces",
-        heading = 62.05,
+        heading = z.WeedProcessing.heading,
         debugPoly = Config.Debug.poly,
         minZ = z.WeedProcessing.coords.z,
         maxZ = z.WeedProcessing.coords.z + 1,

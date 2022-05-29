@@ -42,6 +42,7 @@ AddEventHandler('ps-drugprocessing:processChemicals', function()
 		TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["sulfuric_acid"], "remove", Config.MethProcessing.SulfAcid)
 		TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["hydrochloric_acid"], "remove", Config.MethProcessing.HydAcid)
 		TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["sodium_hydroxide"], "remove", Config.MethProcessing.SodHyd)
+		TriggerClientEvent('ps-drugprocessing:CheckForMoreMeth', src, src,"ProcessChemicals")
 	end
 end)
 
@@ -55,6 +56,7 @@ AddEventHandler('ps-drugprocessing:processTempUp', function()
 		Player.Functions.RemoveItem("liquidmix", 1)
 		TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["chemicalvapor"], "add")
 		TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["liquidmix"], "remove")
+		TriggerClientEvent('ps-drugprocessing:CheckForMoreMeth', src, src,"ChangeTemp")
 	end
 end)
 

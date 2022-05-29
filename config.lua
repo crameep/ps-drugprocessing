@@ -14,11 +14,13 @@ Config.Debug = {
 
 Config.CircleZones = {
 	WeedField = {coords = vector3(5464.62,-5901.59, 20.01), name = ('Weed Farm'), radius = 10.0},
-	WeedProcessing = {coords = vector3(4947.78, -5100.81,2.24), name = ('Weed Process'), polyHeight = 2.5, polyWidth = 2.5},
-	
-	MethProcessing = {coords = vector3(978.17, -147.98, -48.53), name = ('Meth Process'), radius = 20.0},
-	MethTemp = {coords = vector3(982.56, -145.59, -49.0), name = ('Meth Temperature'), radius = 20.0},
-	MethBag = {coords = vector3(987.81, -140.43, -49.0), name = ('Meth Bagging'), radius = 20.0},
+	WeedProcessing = {coords = vector3(5132.91, -5180.57, -4.82), name = ('Weed Process'), polyHeight = 2.5, polyWidth = 2.5, heading = 358.31},
+
+	MethProcessing = {coords = vector3(5134.54, -4622.62, -4.86), name = ('Meth Process'), polyHeight = 2.5, polyWidth = 2.5, heading = 165, minZ = -6.0, maxZ = -4.0},
+	MethTempUp = {coords = vector3(5129.58, -4617.3, -4.67), name = ('Meth Temperature'), polyHeight = 0.5, polyWidth = 0.5, heading = 165, minZ = -6.0, maxZ = -4.0},
+	MethTempDown = {coords = vector3(5130.21, -4617.5, -4.67), name = ('Meth Temperature'), polyHeight = 0.5, polyWidth = 0.5, heading = 165, minZ = -6.0, maxZ = -4.0},
+	MethBag = {coords = vector3(5123.54, -4619.7, -4.87), name = ('Meth Bagging'), polyHeight = 2.5, polyWidth = 2.0, heading = 165, minZ = -6.0, maxZ = -4.0},
+
 	HydrochloricAcidFarm = {coords = vector3(5187.34, -5133.3, 3.34), name = ('Hydrochloric Acid'), radius = 4.0},
 
 	SulfuricAcidFarm = {coords = vector3(5052.58, -4592.65, 2.89), name = ('Sulfuric Acid'), radius = 3.0},
@@ -58,12 +60,7 @@ Config.MethLab = {
 }
 
 Config.CokeLab = {
-	["enter"] = {
-        coords = vector4(813.21, -2398.69, 23.66, 171.51), --vector3(813.21, -2398.69, 23.66)
-    },
-    ["exit"] = {
-        coords = vector4(1088.68, -3187.68, -38.99, 176.04), -- GTA DLC Biker Cocaine Lab -- vector3(1088.68, -3187.68, -38.99)
-    },
+-- Not using the Lab MLO
 }
 
 --[[Config.WeedLab = {

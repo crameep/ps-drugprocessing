@@ -215,30 +215,33 @@ end
 
 
 
-RegisterNetEvent('ps-drugprocessing:CheckForMoreCoke', function(source, process, item)
+RegisterNetEvent('ps-drugprocessing:CheckForMoreCoke', function(source, process)
 	Citizen.Wait(100)
 	if process == 'ProcessCoke' then
-		local hasLeaf = QBCore.Functions.HasItem(item)
-		if hasLeaf then
-			ProcessCoke()
-		else
-			QBCore.Functions.Notify(Lang:t("error.done"), 'error')
-		end
-	
+		QBCore.Functions.TriggerCallback("QBCore:HasItem", function(hasItem)	
+			if hasItem then
+				ProcessCoke()
+			else
+				QBCore.Functions.Notify(Lang:t("error.not_all_items"), 'error')
+			end	
+		end, {['coca_leaf'] = Config.CokeProcessing.CokeLeaf, ['trimming_scissors'] = 1})		
 	elseif process == 'CutCokePowder' then
-		local hasCoke = QBCore.Functions.HasItem(item)
-		if hasCoke then
-			CutCokePowder()
-		else
-			QBCore.Functions.Notify(Lang:t("error.done"), 'error')
-		end
+		QBCore.Functions.TriggerCallback("QBCore:HasItem", function(hasItem)	
+			if hasItem then
+				CutCokePowder()
+			else
+				QBCore.Functions.Notify(Lang:t("error.not_all_items"), 'error')
+			end	
+		end, {['coke'] = Config.CokeProcessing.Coke, ['bakingsoda'] = Config.CokeProcessing.BakingSoda})
+
 	elseif process == 'ProcessBricks' then
-		local hasBrick = QBCore.Functions.HasItem(item)
-		if hasBrick then
-			ProcessBricks()
-		else
-			QBCore.Functions.Notify(Lang:t("error.done"), 'error')
-		end
+		QBCore.Functions.TriggerCallback("QBCore:HasItem", function(hasItem)	
+			if hasItem then
+				ProcessBricks()
+			else
+				QBCore.Functions.Notify(Lang:t("error.not_all_items"), 'error')
+			end	
+		end, {['coke_small_brick'] = Config.CokeProcessing.SmallBrick})
 	end
 end)
 

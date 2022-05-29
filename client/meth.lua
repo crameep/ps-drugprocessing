@@ -9,12 +9,13 @@ AddEventHandler('ps-drugprocessing:ProcessChemicals', function()
 	if GetDistanceBetweenCoords(coords, Config.CircleZones.MethProcessing.coords, true) < 5 then
 		if not isProcessing then
 			QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
+				print("Checking for SA")
 				if result then
 					hasitem1 = true
 				else
 					QBCore.Functions.Notify(Lang:t("error.no_sulfuric_acid"), 'error')
 				end
-			end, 'sulfuric_acid', Config.MethProcessing.SulfAcid)
+			end, {['sulfuric_acid'] = Config.MethProcessing.SulfAcid})
 			Citizen.Wait(1000) -- BUFFER
 			QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
 				if result and hasitem1 then
@@ -22,7 +23,7 @@ AddEventHandler('ps-drugprocessing:ProcessChemicals', function()
 				else
 					QBCore.Functions.Notify(Lang:t("error.hydrochloric_acid"), 'error')
 				end
-			end, 'hydrochloric_acid', Config.MethProcessing.HydAcid)
+			end, {['hydrochloric_acid'] = Config.MethProcessing.HydAcid})
 			Citizen.Wait(1000) -- BUFFER  
 			QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
 				if result and hasitem2 then
@@ -32,7 +33,7 @@ AddEventHandler('ps-drugprocessing:ProcessChemicals', function()
 				else
 					QBCore.Functions.Notify(Lang:t("error.sodium_hydroxide"), 'error')
 				end
-			end, 'sodium_hydroxide', Config.MethProcessing.SodHyd)
+			end, {['sodium_hydroxide'] = Config.MethProcessing.SodHyd})
 		else
 			QBCore.Functions.Notify(Lang:t("error.already_processing"), 'error')
 		end
@@ -327,3 +328,27 @@ function OpenDoorAnimation()
     Citizen.Wait(400)
     ClearPedTasks(ped)
 end
+
+RegisterNetEvent('ps-drugprocessing:CheckForMoreMeth', function(source, process)
+	Citizen.Wait(100)
+	if process == 'ProcessChemicals' then
+		QBCore.Functions.TriggerCallback("QBCore:HasItem", function(hasItem)	
+			if hasItem then
+				ProcessChemicals()
+			else
+				QBCore.Functions.Notify(Lang:t("error.not_all_items"), 'error')
+			end	
+		end, {['sulfuric_acid'] = Config.MethProcessing.SulfAcid, ['hydrochloric_acid'] = 1, ['sodium_hydroxide'] = 1})		
+	elseif process == 'ChangeTemp' then
+		QBCore.Functions.TriggerCallback("QBCore:HasItem", function(hasItem)	
+			if hasItem then
+				ProcessTempUp()
+			else
+				QBCore.Functions.Notify(Lang:t("error.not_all_items"), 'error')
+			end	
+		end, {['liquidmix'] = 1})
+
+	elseif process == 'ProcessBricks' then
+
+	end
+end)

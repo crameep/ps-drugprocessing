@@ -21,7 +21,7 @@ AddEventHandler('ps-drugprocessing:processCannabis', function()
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['cannabis'], "remove")
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['marijuana'], "add")
 	TriggerClientEvent('QBCore:Notify', src, Lang:t("success.marijuana"), "success")
-	TriggerClientEvent('ps-drugprocessing:CheckForMoreWeed', src, src, "ProcessWeed", "cannabis")
+	TriggerClientEvent('ps-drugprocessing:CheckForMoreWeed', src, src, "ProcessWeed")
 end)
 
 RegisterServerEvent('ps-drugprocessing:rollJoint')
@@ -63,7 +63,7 @@ AddEventHandler('ps-drugprocessing:bagMarijuana', function()
 	local weedbag = Config.WeedBags[math.random(#Config.WeedBags)]
 	
 	Player.Functions.RemoveItem('marijuana', 1)
-	Player.Functions.RemoveItem('rolling_paper', 1)
+	Player.Functions.RemoveItem('empty_wed_bag', 1)
 	Player.Functions.AddItem(weedbag, 1)
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['marijuana'], "remove")
 	TriggerClientEvent("inventory:client:ItemBox", source, QBCore.Shared.Items['empty_weed_bag'], "remove")

@@ -25,7 +25,7 @@ function ProcessWeed()
 
 	TaskStartScenarioInPlace(playerPed, "PROP_HUMAN_PARKING_METER", 0, true)
 
-	QBCore.Functions.Progressbar("search_register", Lang:t("progressbar.processing"), 15000, false, true, {
+	QBCore.Functions.Progressbar("search_register", Lang:t("progressbar.processing"), 7000, false, true, {
 		disableMovement = true,
 		disableCarMovement = true,
 		disableMouse = false,
@@ -222,7 +222,7 @@ function RollJoint()
 
 	TaskStartScenarioInPlace(playerPed, "PROP_HUMAN_PARKING_METER", 0, true)
 
-	QBCore.Functions.Progressbar("search_register", Lang:t("progressbar.rolling_joint"), 15000, false, true, {
+	QBCore.Functions.Progressbar("search_register", Lang:t("progressbar.rolling_joint"), 7000, false, true, {
 		disableMovement = true,
 		disableCarMovement = true,
 		disableMouse = false,
@@ -246,27 +246,29 @@ end
 RegisterNetEvent('ps-drugprocessing:CheckForMoreWeed', function(source, process, item)
 	Citizen.Wait(100)
 	if process == 'ProcessWeed' then
-		local hasCannabis = QBCore.Functions.HasItem(item)
-		if hasCannabis then
-			ProcessWeed()
-		else
-			QBCore.Functions.Notify(Lang:t("error.no_cannabis"), 'error')
-		end
-	
+		QBCore.Functions.TriggerCallback("QBCore:HasItem", function(hasItem)	
+			if hasItem then
+				ProcessWeed()
+			else
+				QBCore.Functions.Notify(Lang:t("error.not_all_items"), 'error')
+			end	
+		end, {['cannabis'] = 1})	
 	elseif process == 'BagMarijuana' then
-		local hasMarijuana = QBCore.Functions.HasItem(item)
-		if hasMarijuana then
-			BagMarijuana()
-		else
-			QBCore.Functions.Notify(Lang:t("error.no_marijuhana"), 'error')
-		end
+		QBCore.Functions.TriggerCallback("QBCore:HasItem", function(hasItem)	
+			if hasItem then
+				BagMarijuana()
+			else
+				QBCore.Functions.Notify(Lang:t("error.not_all_items"), 'error')
+			end	
+		end, {['marijuana'] = 1, ['empty_weed_bag'] = 1})
 	elseif process == 'RollJoint' then
-		local hasMarijuana2 = QBCore.Functions.HasItem(item)
-		if hasMarijuna2 then
-			RollJoint()
-		else
-			QBCore.Functions.Notify(Lang:t("error.no_marijuhana"), 'error')
-		end
+		QBCore.Functions.TriggerCallback("QBCore:HasItem", function(hasItem)	
+			if hasItem then
+				RollJoint()
+			else
+				QBCore.Functions.Notify(Lang:t("error.not_all_items"), 'error')
+			end	
+		end, {['marijuana'] = 1, ['rolling_paper'] = 1})
 	end
 end)
 
