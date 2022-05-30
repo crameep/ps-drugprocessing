@@ -5,6 +5,7 @@
 - Added Bagging weed and randomly get different quality weeds when bagging
 - Fixed the spawning of models to only show to the player that can harvest them, so you dont see a bunch of models you cant harvest
 - I cant remember what else i did so far but i'm sure theres more.
+- Started on Reworking the Meth for autoprocessing and using the config values for targets.
 
 # Chemicals Preview
 ![image](https://user-images.githubusercontent.com/82112471/165860380-861eddc3-8548-442d-b483-2afd311970ad.png)
