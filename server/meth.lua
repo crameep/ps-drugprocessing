@@ -70,6 +70,7 @@ AddEventHandler('ps-drugprocessing:processTempDown', function()
 		Player.Functions.RemoveItem("chemicalvapor", 1)
 		TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["methtray"], "add")
 		TriggerClientEvent('inventory:client:ItemBox', src, QBCore.Shared.Items["chemicalvapor"], "remove")
+		TriggerClientEvent('ps-drugprocessing:CheckForMoreMeth', src, src,"ChangeTemp2")
 	end
 end)
 

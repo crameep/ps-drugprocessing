@@ -2,7 +2,7 @@ Config = {}
 
 Config.Delays = {
 	WeedProcessing = 1000 * 5,
-	MethProcessing = 1000 * 10,
+	MethProcessing = 1000 * 5,
 	CokeProcessing = 1000 * 5,
 	lsdProcessing = 1000 * 10,
 	HeroinProcessing = 1000 * 10,

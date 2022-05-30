@@ -166,7 +166,7 @@ function ProcessTempUp()
 			Citizen.Wait(1000)
 			timeLeft = timeLeft - 1
 
-			if GetDistanceBetweenCoords(GetEntityCoords(playerPed), Config.CircleZones.MethTemp.coords, false) > 2 then
+			if GetDistanceBetweenCoords(GetEntityCoords(playerPed), Config.CircleZones.MethTempUp.coords, false) > 2 then
 				QBCore.Functions.Notify(Lang:t("error.too_far"), "error")
 				TriggerServerEvent('ps-drugprocessing:cancelProcessing')
 				break
@@ -186,12 +186,13 @@ function ProcessTempDown()
 
 	TaskStartScenarioInPlace(playerPed, "PROP_HUMAN_PARKING_METER", 0, true)
 
-	QBCore.Functions.Progressbar("search_register", Lang:t("progressbar.temp_down"), 15000, false, true, {
+	QBCore.Functions.Progressbar("search_register", Lang:t("progressbar.temp_down"), 7000, false, true, {
 		disableMovement = true,
 		disableCarMovement = true,
 		disableMouse = false,
 		disableCombat = true,
 	}, {}, {}, {}, function()
+
 	TriggerServerEvent('ps-drugprocessing:processTempDown')
 
 	local timeLeft = Config.Delays.MethProcessing / 1000
@@ -200,7 +201,7 @@ function ProcessTempDown()
 			Citizen.Wait(1000)
 			timeLeft = timeLeft - 1
 
-			if GetDistanceBetweenCoords(GetEntityCoords(playerPed), Config.CircleZones.MethTemp.coords, false) > 2 then
+			if GetDistanceBetweenCoords(GetEntityCoords(playerPed), Config.CircleZones.MethTempDown.coords, false) > 2 then
 				QBCore.Functions.Notify(Lang:t("error.too_far"), "error")
 				TriggerServerEvent('ps-drugprocessing:cancelProcessing')
 				break
@@ -348,7 +349,13 @@ RegisterNetEvent('ps-drugprocessing:CheckForMoreMeth', function(source, process)
 			end	
 		end, {['liquidmix'] = 1})
 
-	elseif process == 'ProcessBricks' then
-
+	elseif process == 'ChangeTemp2' then
+		QBCore.Functions.TriggerCallback("QBCore:HasItem", function(hasItem)	
+			if hasItem then
+				ProcessTempDown()
+			else
+				QBCore.Functions.Notify(Lang:t("error.not_all_items"), 'error')
+			end	
+		end, {['chemicalvapor'] = 1})
 	end
 end)
